@@ -49,7 +49,12 @@ class Dictionary:
 
             for element in old_hash_table:
                 if element:
-                    self.__setitem__(element.key, element.value)
+                    index = element.hash % self.capacity
+                    if self.hash_table[index]:
+                        while self.hash_table[index] is not None:
+                            index += 1
+                            index %= self.capacity
+                    self.hash_table[index] = element
 
     def __setitem__(self, key: Any, value: Any) -> None:
         replacement = self.change_value(key, value)
